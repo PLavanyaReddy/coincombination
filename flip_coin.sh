@@ -42,6 +42,7 @@ do
         dict3[$key2]=$(( ${dict3[$key2]}+1 ))
 
 done
+max1=0
 echo "Singlet combination:"
 for index in  ${!dict[@]}
 do
@@ -49,6 +50,15 @@ do
         percent=`echo ${dict[$index]} $num | awk '{print $1/$2}'`
         percentile=`echo $percent 100 | awk '{print $1*$2}'`
         echo "The percentage of $index is "$percentile
+	if [ $max1 -eq 0 ]
+	then
+		max1=${dict[$index]}
+		combination=$index
+	elif [ ${dict[$index]} -gt $max1 ]
+	then
+		 max1=${dict[$index]}
+		combination=$index
+	fi
 done
 echo "Doublet combination:"
 for index in  ${!dict2[@]}
@@ -57,6 +67,11 @@ do
         percent=`echo ${dict2[$index]} $num | awk '{print $1/$2}'`
         percentile=`echo $percent 100 | awk '{print $1*$2}'`
         echo "The percentage of $index is "$percentile
+	if [ ${dict2[$index]} -gt $max1 ]
+        then
+                max1=${dict2[$index]}
+                combination=$index
+        fi
 done
 echo "Triplet combination:"
 for index in  ${!dict3[@]}
@@ -65,6 +80,11 @@ do
         percent=`echo ${dict3[$index]} $num | awk '{print $1/$2}'`
         percentile=`echo $percent 100 | awk '{print $1*$2}'`
         echo "The percentage of $index is "$percentile
+	if [ ${dict3[$index]} -gt $max1 ]
+        then
+                max1=${dict3[$index]}
+                combination=$index
+        fi
 done
-
+echo "The winning combination is "$combination
 
